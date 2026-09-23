@@ -1,0 +1,45 @@
+.fancybox-slide > div > h2:first-child {
+  margin-top: 10px;
+}
+code {
+  background: #eee;
+  padding: 0 5px;
+  font-family: Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+}
+
+iframe {
+  border: 1px solid #ccc;
+  width: 80vw;
+  height: calc(100vh - 100px); 
+}
+a img {
+  vertical-align: top;
+}
+.imglist a {
+  display: inline-block;
+}
+
+.imglist img {
+  height: 160px;
+  margin-bottom: 4px;
+}
+
+.tright {
+  text-align: right;
+}
+
+.tright .btn {
+  margin-left: 10px;
+}
+
+.hidden {
+  display: none;
+}
+
+.grid {
+  float: left;
+  width: 30%;
+  padding: 20px;
+  background: #eee;
+  margin: 0 20px 20px 0;
+}

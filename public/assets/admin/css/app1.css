@@ -1,0 +1,39 @@
+
+/*   Core: General style
+----------------------------*/
+.panel-success > .panel-heading {
+    background-color: #01bc8c;
+    border-color: #01bc8c;
+    color: #fff;
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #;
+    border-color: #ddd #ddd transparent;
+    border-image: none;
+    border-style: solid;
+    border-width: 1px;
+    color: #555;
+    cursor: default;
+}
+a, a:hover, li.active a {
+    text-decoration: none !important;
+}
+.nav-tabs > li > a {
+    border: 1px solid transparent;
+    border-radius: 4px 4px 0 0;
+    line-height: 1.42857;
+    margin-right: 2px;
+}
+.nav > li > a {
+    display: block;
+    padding: 10px 15px;
+    position: relative;
+}
+nav-tabs > li > a {
+    border-radius: 0;
+}

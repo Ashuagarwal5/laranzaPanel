@@ -1,0 +1,96 @@
+/*========== Powered By Codespur Software PVT.LTD================*/
+
+body {
+	background: #fff url(../images/body-bg.jpg) 0 0 no-repeat;
+	font-family: 'Raleway', sans-serif;
+	font-size: 13px;
+	color: #333;
+	line-height: 24px;
+	font-weight: 400;
+}
+p {
+	font-family: 'Raleway', sans-serif;
+	font-size: 14px;
+	color: #333;
+	line-height: 24px;
+	font-weight: 400;
+}
+a:focus, a:hover {
+	color: #22aa9f;
+	text-decoration: none;
+	outline: none;
+}
+h1 {
+	color: #000;
+	text-transform: uppercase;
+	font-family: 'Raleway', sans-serif;
+	font-size: 52px;
+	font-weight: 800;
+}
+h4 {
+	color: #222222;
+	font-size: 14px;
+	font-weight: 700;
+	text-transform: uppercase;
+	font-family: 'Raleway', sans-serif;
+}
+.clr {
+	clear: both;
+}
+h2 {
+	color: #000;
+	font-size: 23px;
+	font-family: 'Raleway', sans-serif;
+}
+a {
+	color: #333;
+}
+h3 {
+	color: #272727;
+	font-size: 35px;
+	font-weight: 700;
+	font-family: 'Raleway', sans-serif;
+}
+ol, ul {
+	padding-left: 0;
+}
+ul {
+	list-style: none;
+}
+.btn-warning {
+background:#fd5000;
+border-color:#fd5000;
+border-radius:0;
+color:#fff;
+font-weight:bold;
+	
+	}
+/*======================= Header Css =================================*/
+
+.scroll-banner {
+padding-top:100px;
+background-size:cover;
+color:#fff;	
+position:relative;
+height:100%;
+	}
+#countdown span {
+    display: inline-block;
+    padding: 25px;
+    background: #f5f5f5;
+    text-align: center;
+    color: #252525;
+    font-size: 30px;
+    line-height: 27px;
+    font-weight: 900;
+   // border-bottom: solid 3px #ed1c24;
+    margin: 2px;
+}
+#countdown span abbr {
+    color: #333333;
+    display: block;
+    font-size: 16px;
+    font-weight: 400;
+	border-top:solid 1px #ccc;
+	margin-top:10px;
+}	

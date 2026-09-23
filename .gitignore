@@ -1,0 +1,88 @@
+# Laravel / PHP dependencies
+/vendor/
+
+# Node dependencies
+/node_modules/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Laravel generated / runtime files
+/storage/*.key
+/storage/logs/*
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+
+# Keep Laravel storage directories
+!/storage/logs/.gitignore
+!/storage/framework/cache/.gitignore
+!/storage/framework/sessions/.gitignore
+!/storage/framework/views/.gitignore
+
+# Laravel cache
+/bootstrap/cache/*
+!/bootstrap/cache/.gitignore
+
+# Frontend build output
+/public/build/
+/public/hot
+/public/storage
+
+# Generic build output
+/dist/
+/build/
+/out/
+
+# Cache
+.cache/
+.parcel-cache/
+.turbo/
+.eslintcache
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Test coverage
+/coverage/
+
+# PHPUnit
+.phpunit.result.cache
+.phpunit.cache/
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+
+# TypeScript
+*.tsbuildinfo
+
+# Optional local/archive files
+*.rar
+*.zip
+
+
+.claude/
+artisan.broken
+
+storage/app/app/
+storage/app/uploads/
+
+
+notes.txt

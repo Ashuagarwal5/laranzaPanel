@@ -1,0 +1,51 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews
+    </IfModule>
+    <IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+</IfModule>
+
+RewriteEngine On
+
+# RewriteCond %{HTTP_HOST} ^www.laranza.codespur.us.us$
+# RewriteRule ^(.*)$ https://laranza.codespur.us/$1 [R=301]
+
+
+
+  #RewriteCond %{HTTPS} off
+  #RewriteRule (.*) https://www.%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  #RewriteCond %{HTTP_HOST} !^www\. [NC]
+  #RewriteRule (.*) https://www.%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+
+
+	RewriteRule ^uploads/([0-9]+)/([0-9]+)/([A-Za-z0-9_=]+)/(.*)$   /img/webroot/img.php?w=$1&h=$2&va&src=$4&$3 [QSA,NC,L]
+	RewriteRule ^uploads/(.*)$   /img/webroot/img.php?src=$1 [QSA,NC,L]
+	RewriteRule ^uploads/([0-9]+)/([0-9]+)/(.*)$  /img/webroot/imgp.php?w=$1&h=$2&src=$3 [QSA,NC,L]
+
+    # Redirect Trailing Slashes If Not A Folder...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+
+
+
+
+    # Handle Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+
+    # Handle Authorization Header
+    #RewriteCond %{HTTP:Authorization} .
+    #RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+</IfModule>
+
+# php -- BEGIN cPanel-generated handler, do not edit
+# Set the “ea-php73” package as the default “PHP” programming language.
+<IfModule mime_module>
+  #AddHandler application/x-httpd-ea-php73 .php .php7 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit

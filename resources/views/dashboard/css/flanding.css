@@ -1,0 +1,244 @@
+.clr {
+    clear: both;
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+}
+
+a {
+    text-decoration: none !important;
+    color: #000;
+}
+
+a:hover {
+    color: #333;
+}
+
+p {
+    color: #363636;
+    font-size: 14px;
+    line-height: 24px;
+	font-weight:400;
+}
+
+
+body {
+    background: #fff;
+    color:#4D4D4D;
+    font-family: "Quicksand", sans-serif;
+    font-size: 14px;
+    line-height: 24px;
+	font-weight:400;
+}
+
+h1 {
+    font-weight: bold;
+    color: #222;
+    font-size: 60px;
+}
+
+h2 {
+
+    color: #333;
+    font-size: 40px;
+    margin-bottom: 15px;
+	font-family: "Quicksand", sans-serif;
+	font-weight:700;
+}
+h3 {
+
+    font-size: 30px;
+		font-family: "Quicksand", sans-serif;
+	font-weight:700;
+	color:#333;
+}
+h4 {
+    font-size: 18px;
+    color: #333;
+}
+
+h5 {
+    font-size: 12px;
+    color: #666;
+}
+
+.navbar.active {
+background:#003fd3;	
+	}
+	
+	
+.navbar-light .navbar-nav .nav-link {
+color: rgba(1, 1, 23, 0.55);
+font-size: 15px;
+padding: 15px;
+font-weight: bold;
+}
+.navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .show > .nav-link {
+  color: rgba(4, 40, 179, 0.9);
+}
+	
+.bannersection {
+background:#f8faff url(../images/hero-bg.png) 0 0 no-repeat;
+padding:100px 0;
+position:relative;
+overflow:hidden;
+	}
+.shapsone {
+  position: absolute;
+  right: 5%;
+  top: 0%;
+  z-index: 0;
+      -webkit-animation-name: spin;
+    -webkit-animation-duration: 100000ms;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+    -moz-animation-name: spin;
+    -moz-animation-duration: 100000ms;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-timing-function: linear;
+    -ms-animation-name: spin;
+    -ms-animation-duration: 100000ms;
+    -ms-animation-iteration-count: infinite;
+    -ms-animation-timing-function: linear;
+    animation-name: spin;
+    animation-duration: 100000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}	
+@-ms-keyframes spin {
+from { -ms-transform: rotate(0deg); }
+to { -ms-transform: rotate(360deg); }
+}
+@-moz-keyframes spin {
+from { -moz-transform: rotate(0deg); }
+to { -moz-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+from { -webkit-transform: rotate(0deg); }
+to { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+from { transform: rotate(0deg); }
+to { transform: rotate(360deg); }
+}	
+.rounded-10 {
+border-radius:10px;	
+	}
+	
+#typed, .typed-cursor {
+  color: #123399;
+}	
+	
+.artone {
+position: absolute;
+opacity: 0.1;
+width: 25%;
+left: -230px;
+top: 200px;
+      -webkit-animation-name: spin;
+    -webkit-animation-duration: 100000ms;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+    -moz-animation-name: spin;
+    -moz-animation-duration: 100000ms;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-timing-function: linear;
+    -ms-animation-name: spin;
+    -ms-animation-duration: 100000ms;
+    -ms-animation-iteration-count: infinite;
+    -ms-animation-timing-function: linear;
+    animation-name: spin;
+    animation-duration: 100000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;	
+	}	
+	
+/*.img-overlay {
+background: url(../images/how-dose.jpg) 0 0 no-repeat;
+width:100%;
+height:100%;
+background-size:cover;
+object-fit: cover;
+min-height:550px;	
+	}	*/
+.blogsection {
+position:relative;
+overflow:hidden;	
+	}	
+.bg-light{
+background: #f8faff !important;	
+	}	
+	
+.accordion-button:not(.collapsed) {
+  color: #262626;
+  background-color: #fff;
+  box-shadow: inset 0 -1px 0 rgba(0,0,0,.125);
+}.accordion-item {
+border-radius:0 !important;	
+border-width: 0 0 1px;
+	}	
+.accordion-button {
+font-weight:bold;
+font-size:20px;	
+padding: 1.5rem 1.25rem;
+	}	
+	
+.social a {
+width:40px;
+height:40px;
+border:solid 1px #a4a4a4;
+display:inline-block;
+margin:10px 5px;
+border-radius:100px;
+line-height: 38px;
+font-size: 14px;
+color:#a4a4a4;
+text-align:center;
+	}	
+	
+.social a:hover {
+background:#fff;
+color:#333;
+border-color:#fff;	
+	}	
+.f-list p,.f-list a{
+color: #ababab;	
+	}	
+.f-list ul {
+list-style:none;
+padding:0;
+margin:0;	
+	}
+.f-list ul li a {
+margin-bottom:10px;
+display:block;	
+	}		
+.f-list ul li a:hover {
+color:#fff;	
+	}	
+.option {
+position:absolute;
+right:10px;
+top:50px;	
+	}	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+
+
+
+														
+@media only screen and (min-width:320px) and (max-width:767px) {}
+
+@media only screen and (min-width:768px) and (max-width:1024px) {}
