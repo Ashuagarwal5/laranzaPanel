@@ -44,7 +44,7 @@ class RewardProduct extends Eloquent
         $msg    = '';
 
         try {
-            $imagePath = URL::to(Thumbnail::image('reward-products', '500', '500', 'f'));
+            $imagePath = URL::to('uploads/reward-products');
 
             $query = self::leftjoin('reward_catalog_categories', 'reward_catalog_categories.id', 'reward_products.category_id')
                 ->select(
@@ -125,7 +125,7 @@ class RewardProduct extends Eloquent
         $msg    = '';
 
         try {
-            $imagePath = URL::to(Thumbnail::image('reward-catalog-categories', '300', '300', 'f'));
+            $imagePath = URL::to('uploads/reward-catalog-categories');
 
             $data = RewardCatalogCategory::select(
                 'id',

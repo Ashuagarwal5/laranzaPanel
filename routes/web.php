@@ -467,6 +467,8 @@ Route::group(array('prefix' => 'cpmin', 'middleware' => 'SentinelAdmin'), functi
 		Route::get('whatsapp/templates', array('as' => 'message.whatsapp.templates', 'uses' => 'Admin\MessageController@whatsappTemplates'));
 		Route::post('whatsapp/preview', array('as' => 'message.whatsapp.preview', 'uses' => 'Admin\MessageController@whatsappPreview'));
 		Route::get('whatsapp/sync', array('as' => 'message.whatsapp.sync', 'uses' => 'Admin\MessageController@whatsappSync'));
+		Route::get('whatsapp-logs', array('as' => 'admin.whatsapp.logs', 'uses' => 'Admin\WhatsappLogController@index'));
+		Route::post('whatsapp-logs/clear', array('as' => 'admin.whatsapp.logs.clear', 'uses' => 'Admin\WhatsappLogController@clear'));
 		Route::get('edit/{ID}', array('as' => 'update.message', 'uses' => 'Admin\MessageController@create'));
 		Route::post('edit/{ID}', array('as' => 'updated.message', 'uses' => 'Admin\MessageController@store'));
 		Route::get('{id}/confirm-delete', array('as' => 'confirm-delete.message', 'uses' => 'Admin\MessageController@getModalDelete'));

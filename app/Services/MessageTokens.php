@@ -48,10 +48,11 @@ class MessageTokens {
 				'{pincode}'        => 'Customer Pincode',
 				'{referral_code}'  => 'Customer Referral Code',
 				'{profile_status}' => 'Customer Profile Status',
-				'{total_points}'   => 'Customer Total Points Balance',
 				'{otp}'            => 'OTP / Verification Code',
 			],
 			'Points' => [
+				'{points_added}'    => 'Points Added (e.g. after a QR scan)',
+				'{total_points}'    => 'Total Points (available balance)',
 				'{points}'          => 'Points In This Transaction',
 				'{points_spent}'    => 'Points Spent On Redemption',
 				'{points_per_unit}' => 'Points Per Unit',
@@ -132,8 +133,8 @@ class MessageTokens {
 		$values = [
 			// --- Customer -------------------------------------------------
 			'{user_name}'      => self::pick($userData, 'full_name', self::fullName($userData)),
-			'{first_name}'     => self::pick($userData, 'first_name'),
-			'{last_name}'      => self::pick($userData, 'last_name'),
+			'{first_name}'     => self::pick($userData, 'first_name', self::nameParts($userData)[0]),
+			'{last_name}'      => self::pick($userData, 'last_name', self::nameParts($userData)[1]),
 			'{mobileno}'       => self::pick($userData, 'mobileno'),
 			'{email}'          => self::pick($userData, 'email'),
 			'{customer_id}'    => self::pick($userData, 'id'),
@@ -144,10 +145,11 @@ class MessageTokens {
 			'{pincode}'        => self::pick($userData, 'pincode'),
 			'{referral_code}'  => self::pick($userData, 'referral_code'),
 			'{profile_status}' => self::pick($userData, 'profile_status'),
-			'{total_points}'   => self::pick($userData, 'total_customer_points'),
+			'{total_points}'   => self::balance($userData),
 			'{otp}'            => self::pick($userData, 'verification_code'),
 
 			// --- Points ---------------------------------------------------
+			'{points_added}'    => $point,
 			'{points}'          => $point,
 			'{points_spent}'    => self::pick($claim, 'points_spent', $point),
 			'{points_per_unit}' => self::pick($claim, 'points_per_unit'),
@@ -210,6 +212,33 @@ class MessageTokens {
 		}
 
 		return $values;
+	}
+
+	/**
+	 * The customer's available points balance: the running balance on their
+	 * latest points-ledger row (the same figure the app shows).
+	 */
+	protected static function balance($userData)
+	{
+		if (!is_object($userData) || empty($userData->id)) {
+			return null;
+		}
+		$balance = \App\CustomerPoints::where('user_id', $userData->id)->orderBy('id', 'desc')->value('current_points');
+		return $balance === null ? 0 : $balance;
+	}
+
+	/**
+	 * [first, rest] of the customer's full_name - customers only store one
+	 * full name, so first/last name are split out of it.
+	 */
+	protected static function nameParts($userData)
+	{
+		$full  = trim(preg_replace('/\s+/u', ' ', (string) self::pick($userData, 'full_name', '')));
+		if ($full === '') {
+			return [null, null];
+		}
+		$parts = explode(' ', $full, 2);
+		return [$parts[0], isset($parts[1]) ? $parts[1] : null];
 	}
 
 	protected static function pick($object, $property, $default = null)

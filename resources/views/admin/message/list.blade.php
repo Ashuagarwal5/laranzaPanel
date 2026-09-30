@@ -39,6 +39,7 @@
 					{{ $manager_name }} List
 				</h4>
 				<div class="pull-right">
+					<a href="{{ route('admin.whatsapp.logs') }}" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-list-alt"></span> Logs</a>
 					<a href="{{$route_create}}" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-plus"></span>Create</a>
 				</div>
 			</div>

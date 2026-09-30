@@ -53,12 +53,14 @@ class CelitixSms {
 		$entityId = $settings ? trim((string) $settings->sms_entity_id) : '';
 		$to       = CelitixWhatsapp::normaliseNumber($mobileno);
 
+		SmsMessageLog::ensureSchema();
+
 		$log = new SmsMessageLog();
 		$log->mobileno    = $to ?: $mobileno;
 		$log->message_id  = $messageId;
 		$log->sender_id   = $senderId;
 		$log->template_id = $templateId;
-		$log->message     = $message;
+		$log->event       = $messageId ? \App\Message::withTrashed()->where('id', $messageId)->value('title') : null;
 		$log->status      = 'pending';
 
 		$error = null;
@@ -73,6 +75,7 @@ class CelitixSms {
 			$log->status = 'failed';
 			$log->error  = $error;
 			$log->save();
+			SmsMessageLog::prune($log->id);
 			return ['status' => 'error', 'msg' => $error, 'log_id' => $log->id];
 		}
 
@@ -110,6 +113,7 @@ class CelitixSms {
 		$log->client_ref_id       = isset($item['clientRefId']) ? $item['clientRefId'] : null;
 		$log->error               = $ok ? null : self::errorMessage($raw, $code, $err, $body, $item);
 		$log->save();
+		SmsMessageLog::prune($log->id);
 
 		return [
 			'status'     => $ok ? 'success' : 'error',

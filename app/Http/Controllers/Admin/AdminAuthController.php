@@ -66,6 +66,8 @@ class AdminAuthController extends Controller
                 if (Hash::check($request->password, $data->password)) {
                     $user = Sentinel::findById($data->id);
                     Sentinel::login($user);
+                    // Start the admin idle-timeout clock (checked in the SentinelAdmin middleware).
+                    session(['admin_last_activity' => time()]);
             //     }
             // }
             // if (Sentinel::authenticate($credentials))

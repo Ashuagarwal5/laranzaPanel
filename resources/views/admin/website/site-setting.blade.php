@@ -182,7 +182,7 @@ General Settings::CRM
 								<div class="fileinput fileinput-new" data-provides="fileinput">
 									@if(isset($data->logo))
 									<div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;">
-										<img src="{{URL::to(App\Helpers\Thumbnail::image("logo/$data->logo","200","150","ff=ffffff")) }}"><br>
+										<img src="{{URL::to("uploads/logo/$data->logo") }}" style="max-width:100%; max-height:100%;"><br>
 									</div>
 									@else
 									<div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;"></div>	

@@ -16,7 +16,7 @@
 <meta name="_token" content="{{ csrf_token() }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/admin/vendors/bootstrap-datepicker/css/bootstrap-datepicker.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/admin/css/toastr.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/css/pages/jscharts.css') }}" />
+<link rel="stylesheet" href="{{ asset('assets/admin/css/pages/jscharts.css') }}" />
 
 @stop
 

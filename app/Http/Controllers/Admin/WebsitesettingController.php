@@ -274,6 +274,9 @@ class WebsitesettingController extends CodespurController {
 			$records = WebsiteSetting::first();
 			$records->whatsaap_api_key = $request->whatsaap_api_key;
 			$records->waba_number = $request->waba_number;
+			if (\Schema::hasColumn('website_settings', 'admin_mobile_no') && $request->has('admin_mobile_no')) {
+				$records->admin_mobile_no = trim((string) $request->admin_mobile_no) ?: null;
+			}
 			$records->sms_entity_id = trim($request->sms_entity_id);
 			$records->sms_api_key = trim((string) $request->sms_api_key);
 			$records->fcm_api_key = $request->fcm_api_key;

@@ -3,6 +3,7 @@
 use App\WebsiteSetting;
 use App\WhatsappTemplate;
 use App\WhatsappMessageLog;
+use App\Services\WhatsappLog;
 
 /**
  * Thin wrapper over the Celitix WABA API.
@@ -65,7 +66,9 @@ class CelitixWhatsapp {
 		}
 
 		$body = json_decode($raw, true);
-		$ok   = ($code == 200 || $code == 202);
+		// Celitix can answer HTTP 200 with a Meta error object in the body
+		// (e.g. #131008), so a 200 alone does not mean the message was queued.
+		$ok   = ($code == 200 || $code == 202) && !(is_array($body) && isset($body['error']));
 
 		return [
 			'status' => $ok ? 'success' : 'error',
@@ -227,6 +230,16 @@ class CelitixWhatsapp {
 		$log->wamid     = self::extractWamid($response['body']);
 		$log->save();
 
+		WhatsappMessageLog::prune($log->id);
+
+		$noId = $response['status'] === 'success' && !$log->wamid;
+		WhatsappLog::write(
+			($response['status'] === 'success' && !$noId) ? 'info' : 'warning',
+			'api',
+			'HTTP '.$response['code'].' for '.$to.($noId ? ' - ACCEPTED BUT NO MESSAGE ID returned, so it may not have been queued' : '').' | response: '.substr((string) $response['raw'], 0, 600),
+			['log_id' => $log->id]
+		);
+
 		return [
 			'status' => $response['status'],
 			'msg'    => $response['msg'],
@@ -271,6 +284,16 @@ class CelitixWhatsapp {
 		$log->wamid     = self::extractWamid($response['body']);
 		$log->save();
 
+		WhatsappMessageLog::prune($log->id);
+
+		$noId = $response['status'] === 'success' && !$log->wamid;
+		WhatsappLog::write(
+			($response['status'] === 'success' && !$noId) ? 'info' : 'warning',
+			'api',
+			'HTTP '.$response['code'].' for '.$to.($noId ? ' - ACCEPTED BUT NO MESSAGE ID returned, so it may not have been queued' : '').' | response: '.substr((string) $response['raw'], 0, 600),
+			['log_id' => $log->id]
+		);
+
 		return [
 			'status' => $response['status'],
 			'msg'    => $response['msg'],
@@ -296,15 +319,27 @@ class CelitixWhatsapp {
 			|| count(array_filter($positions, 'is_string')) > 0;
 
 		$parameters = [];
+		$empty      = [];
 		foreach ($positions as $position) {
+			$text = self::cleanParameter(isset($values[$position]) ? $values[$position] : '');
+			// Meta rejects a parameter with no text (#131008), so a variable
+			// that has no value for this event goes out as a dash instead.
+			if ($text === '') {
+				$empty[] = $position;
+				$text    = '-';
+			}
 			$parameter = [
 				'type' => 'text',
-				'text' => self::cleanParameter(isset($values[$position]) ? $values[$position] : ''),
+				'text' => $text,
 			];
 			if ($named) {
 				$parameter['parameter_name'] = (string) $position;
 			}
 			$parameters[] = $parameter;
+		}
+
+		if (!empty($empty)) {
+			WhatsappLog::write('warning', 'template', 'Template "'.$template->template_name.'": variable(s) '.implode(', ', $empty).' had NO value for this event and were sent as "-". Map them to a variable that has data for this event (Messages -> WhatsApp tab).');
 		}
 
 		$components = [[

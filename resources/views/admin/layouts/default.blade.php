@@ -108,7 +108,7 @@ die; ?>
 	<header class="header">
 		<a href="{{ route('admin.dashboard') }}" class="logo" style="background-color:#f0f0f0; color: #0055ff">
 			<center>
-				<img src="{{ URL::to(App\Helpers\Thumbnail::image("logo/$siteSettingList->logo", '200', '50', 'f')) }}"
+				<img src="{{ URL::to("uploads/logo/$siteSettingList->logo") }}"
 					alt="Admin Panel" style="max-width: 100%; max-height: 50px; width: auto; height: auto;" />
 
 			</center>

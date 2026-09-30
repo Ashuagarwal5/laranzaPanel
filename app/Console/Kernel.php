@@ -15,6 +15,8 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         //
         Commands\NotificationCron::class,
+        Commands\LinkUploads::class,
+        Commands\PushTest::class,
     ];
 
     /**

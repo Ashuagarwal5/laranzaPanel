@@ -66,8 +66,13 @@ class WhatsappWebhookController extends Controller {
 	 */
 	protected function logWebhook($rawBody)
 	{
+		$path = storage_path('logs/whatsapp-webhook.log');
+		// Keep the file small: past 1 MB, start it again from empty.
+		if (is_file($path) && filesize($path) > 1048576) {
+			@file_put_contents($path, '', LOCK_EX);
+		}
 		$line = '['.date('Y-m-d H:i:s').'] '.$rawBody.PHP_EOL;
-		@file_put_contents(storage_path('logs/whatsapp-webhook.log'), $line, FILE_APPEND | LOCK_EX);
+		@file_put_contents($path, $line, FILE_APPEND | LOCK_EX);
 	}
 
 	protected function applyMessage(array $message)

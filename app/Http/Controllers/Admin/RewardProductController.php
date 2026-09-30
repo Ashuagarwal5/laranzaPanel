@@ -56,7 +56,7 @@ class RewardProductController extends CodespurController
                     return '<span class="text-muted">No Image</span>';
                 }
 
-                return '<img src="'.url('uploads/60/60/f'.$upload_dir.'/'.$product->image).'" width="45" height="45" />';
+                return '<img src="'.url('uploads'.$upload_dir.'/'.$product->image).'" width="45" height="45" />';
             })
             ->editColumn('price', function ($product) {
                 return $product->price === null ? '-' : number_format($product->price, 2);

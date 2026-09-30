@@ -8,10 +8,10 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- global level css -->
-    <link href="{{asset('assets/css/bootstrap.min.css')}}" rel="stylesheet" />
+    <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet" />
     <!-- end of global level css -->
     <!-- page level css -->
-    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/pages/login.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/admin/css/login.css')}}" />
     <link href="{{asset('assets/vendors/iCheck/css/square/blue.css')}}" rel="stylesheet" />
     <!-- end of page level css -->
     <style>
@@ -75,7 +75,7 @@ border-radius: 5px;
 box-shadow: 0 0 25px #c6c6c6;">
                             <h3 class="">
                                 <div style="padding-top:15px">
-                                    <img src="{{URL::to(App\Helpers\Thumbnail::image("logo/$siteSettingList->logo","300","120","f"))}}" alt="Admin Panel">
+                                    <img src="{{URL::to("uploads/logo/$siteSettingList->logo")}}" alt="Admin Panel" style="max-width:300px;max-height:120px;">
                                 </div>
                             </h3>
                             <form id="adm_login" class="ajax_form" action="{{route('auth.login')}}" autocomplete="on" method="post" role="form">
@@ -133,16 +133,17 @@ box-shadow: 0 0 25px #c6c6c6;">
         </div>
     </div>
     <!-- global js -->
-    <script src="{{asset('assets/js/jquery-1.11.1.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/admin/js/jquery-1.11.1.min.js')}}" type="text/javascript"></script>
     <!-- Bootstrap -->
-    <script src="{{asset('assets/js/bootstrap.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/admin/js/bootstrap.min.js')}}" type="text/javascript"></script>
     <!--livicons-->
-    <script src="{{asset('assets/js/raphael-min.js')}}"></script>
-    <script src="{{asset('assets/js/livicons-1.4.min.js')}}"></script>
+    <script src="{{asset('assets/admin/js/raphael-min.js')}}"></script>
+    <script src="{{asset('assets/admin/js/livicons-1.4.min.js')}}"></script>
     <script src="{{asset('assets/vendors/iCheck/js/icheck.js')}}" type="text/javascript"></script>
-    <script src="{{asset('assets/js/pages/login.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/admin/js/pages/login.js')}}" type="text/javascript"></script>
     <!-- end of global js -->
     <script src="{{asset('assets/admin/js/jquery.form.js')}}" type="text/javascript"></script>
+ 
 
 
 

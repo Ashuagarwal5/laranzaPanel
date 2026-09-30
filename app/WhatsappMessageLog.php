@@ -22,4 +22,15 @@ class WhatsappMessageLog extends Eloquent {
 		parent::__construct();
 		$this->attributes = array('ip' => Helpers\Thumbnail::getclientip(), 'site_id' => config('constants.siteinfo.site_id'));
 	}
+
+	/**
+	 * Keep only the newest rows: every 25th insert, delete everything more than
+	 * $keep rows behind the row just written.
+	 */
+	public static function prune($currentId, $keep = 1000)
+	{
+		if ($currentId && $currentId % 25 === 0) {
+			static::where('id', '<=', $currentId - $keep)->delete();
+		}
+	}
 }

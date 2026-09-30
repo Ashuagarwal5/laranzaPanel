@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Services\CelitixSms;
 use App\Services\CelitixWhatsapp;
 use App\Services\MessageTokens;
+use App\Services\WhatsappLog;
 
 class SendMessage extends Eloquent {
 
@@ -42,8 +43,11 @@ class SendMessage extends Eloquent {
      */
     public static function getSendMessage($type, $id = null, $point = null, $totype='user', array $context = array())
 	{
+        WhatsappLog::write('info', 'event', 'Event fired: "'.$type.'"', ['user_id' => $id, 'points' => $point]);
+
         $messages = Message::where('title', $type)->get();
         if ($messages->isEmpty()) {
+            WhatsappLog::write('error', 'event', 'STOPPED: no message is saved for the event "'.$type.'" (Messages -> Add Message; its Event Trigger must match exactly).');
             return ['status' => 'error', 'success' => false, 'msgType' => 'error', 'msg' => 'No message is configured for "'.$type.'".'];
         }
 
@@ -53,10 +57,15 @@ class SendMessage extends Eloquent {
         foreach ($messages as $datas) {
             $recipient = $datas->recipient ?: $totype;
             $channels  = array();
+            WhatsappLog::write('info', 'event', 'Message #'.$datas->id.' for "'.$type.'" to '.$recipient.', enabled modes: '.(implode(', ', $datas->modes()) ?: 'NONE'));
+            if (!$datas->hasMode('WhatsApp')) {
+                WhatsappLog::write('warning', 'event', 'WhatsApp is NOT enabled for message #'.$datas->id.' ("'.$type.'" to '.$recipient.') - tick "Send a WhatsApp message" on its WhatsApp tab and Submit.');
+            }
             try {
                 list($to, $notifyUser) = self::recipientFor($recipient, $userData, $context);
             } catch (\Throwable $e) {
                 Log::error('Message "'.$type.'" to '.$recipient.' failed: '.$e->getMessage());
+                WhatsappLog::write('error', 'event', 'Could not resolve the recipient "'.$recipient.'" for "'.$type.'": '.$e->getMessage());
                 $sent[$recipient] = ['status' => 'error', 'msg' => $e->getMessage()];
                 continue;
             }
@@ -74,6 +83,7 @@ class SendMessage extends Eloquent {
                     // A failing channel must never break the action that fired it
                     // (a login, a claim approval...).
                     Log::error('Message "'.$type.'" to '.$recipient.' via '.$mode.' failed: '.$e->getMessage());
+                    WhatsappLog::write('error', strtolower($mode), 'EXCEPTION sending "'.$type.'" to '.$recipient.': '.$e->getMessage());
                     $channels[$mode] = ['status' => 'error', 'msg' => $e->getMessage()];
                 }
             }
@@ -102,13 +112,15 @@ class SendMessage extends Eloquent {
             return [$mobile, $dealer];
         }
 
-        return [$userData ? $userData->mobileno : null, $userData];
+        // A caller that already knows the number (the OTP request) can pass it.
+        $mobile = !empty($context['mobileno']) ? $context['mobileno'] : ($userData ? $userData->mobileno : null);
+        return [$mobile, $userData];
     }
 
     protected static function adminMobile()
     {
         $settings = WebsiteSetting::getGeneralSetting();
-        return ($settings && !empty($settings->admin_mobile_no)) ? $settings->admin_mobile_no : '9950448855';
+        return ($settings && !empty($settings->admin_mobile_no)) ? $settings->admin_mobile_no : '9680003399';
     }
 
     /**
@@ -149,17 +161,27 @@ public static function whatsappTemplate($datas, $to, $userData = null, $point = 
         ->orderBy('id', 'desc')
         ->first();
     if (empty($config)) {
+        WhatsappLog::write('error', 'whatsapp', 'STOPPED: no ACTIVE WhatsApp template is mapped for "'.$datas->title.'" (message #'.$datas->id.') - pick a template on the message\'s WhatsApp tab.');
         return ['status' => 'error', 'msg' => 'No active WhatsApp template is configured for "'.$datas->title.'".'];
     }
 
     $template = $config->template();
     if (empty($template)) {
+        WhatsappLog::write('error', 'whatsapp', 'STOPPED: the mapped template for "'.$datas->title.'" no longer exists - sync templates again.');
         return ['status' => 'error', 'msg' => 'The configured WhatsApp template is missing. Sync templates again.'];
     }
 
     $tokens = MessageTokens::resolve($userData, $point, $context);
 
-    return CelitixWhatsapp::sendTemplate($to, $template, self::mapValues($config->mapping(), $tokens), $datas->id);
+    $result = CelitixWhatsapp::sendTemplate($to, $template, self::mapValues($config->mapping(), $tokens), $datas->id);
+    WhatsappLog::write(
+        $result['status'] === 'success' ? 'info' : 'error',
+        'whatsapp',
+        'Send "'.$datas->title.'" to '.($to ?: '(no number)').' via template '.$template->template_name.': '.$result['status'].(empty($result['msg']) ? '' : ' - '.$result['msg']),
+        ['wamid' => isset($result['wamid']) ? $result['wamid'] : null, 'log_id' => isset($result['log_id']) ? $result['log_id'] : null]
+    );
+
+    return $result;
 }
 
 /**
@@ -188,6 +210,22 @@ public static function appNotification($datas, $userData = null, $point = null, 
     $notification->target_screen = $datas->app_target_screen;
     $notification->status        = 'Pending';
     $notification->save();
+
+    // Push right away rather than waiting for the Nofification:cron scheduler
+    // (which needs a server cron job). If this fails the row stays Pending and
+    // the cron, if it is running, will still retry it.
+    try {
+        $token = $notifyUser->DeviceToken ?? null;
+        if (!empty($token) && !in_array($token, ['0', '1'], true)) {
+            $result = \App\Services\FcmV1::send($token, $notification->title, $notification->description, ['screen' => $notification->target_screen ?? '']);
+            if (($result['status'] ?? '') === 'success') {
+                $notification->status = 'Sent';
+                $notification->save();
+            }
+        }
+    } catch (\Throwable $e) {
+        \Log::error('appNotification push failed: '.$e->getMessage());
+    }
 
     return ['status' => 'success', 'notification_id' => $notification->id];
 }

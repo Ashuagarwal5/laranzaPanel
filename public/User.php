@@ -154,10 +154,7 @@ class User extends Authenticatable
                     $activation2 = Activation::create($userSentinal);
                     Activation::complete($user, $activation2->code);                  
 					#===========Once User is register in db through Sentinel then next task is to save Device Token for that user==#
-					// mobileno is written explicitly: Sentinel::create() goes through mass
-					// assignment, which this model's empty $fillable can silently drop, and
-					// OTP verification looks the customer up by this number.
-					User::where('id', $user->id)->update(['mobileno' => $mobileno, 'DeviceToken' => $DeviceToken, 'verification_code' => $verification_code]);
+					User::where('id', $user->id)->update(['DeviceToken' => $DeviceToken, 'verification_code' => $verification_code]);
 
 
                     $userdata = Sentinel::findById($user->id);
@@ -223,8 +220,7 @@ class User extends Authenticatable
             //self::whatsapp($msgwhat);
 
 
-            // Send to the number the customer typed in, not the one on their
-            // saved record - a brand-new customer's record may not have it yet.
+            // SendMessage::getSendMessage('Custom OTP', $user->id, $point = null, $totype='user');
             SendMessage::getSendMessage('Custom OTP', $user->id, $point = null, $totype='user', ['mobileno' => $mobileno]);
 
 
@@ -310,16 +306,9 @@ class User extends Authenticatable
                 ->first();
             }
             else{
-                // Same lookup Applogin() used to send the OTP: the customer's own number,
-                // or a number that belongs to a dealer record linked to them.
                 $userdata = User::select('users.id', 'users.full_name', 'users.state', 'users.mobileno', 'users.email', 'users.city', 'users.profile_status', 'users.gender', 'users.profile_photo', 'users.dob', 'users.address', 'users.pincode', 'roles.slug as type', 'users.user_type', 'users.step_completed','users.account_type','users.dealer_id','dealers.dealer_name')
                     ->where('users.verification_code', $verification_code)
-                    ->where(function ($query) use ($mobileno) {
-                        $query->where('users.mobileno', $mobileno)
-                              ->orWhereIn('users.id', function ($sub) use ($mobileno) {
-                                  $sub->select('user_id')->from('dealers')->where('mobile_no', $mobileno);
-                              });
-                    })
+                    ->where('users.mobileno', $mobileno)
                     ->join('role_users', 'role_users.user_id', '=', 'users.id')
                     ->join('roles', 'roles.id', '=', 'role_users.role_id')
                     ->leftjoin('dealers', 'users.dealer_id', '=', 'dealers.user_id')

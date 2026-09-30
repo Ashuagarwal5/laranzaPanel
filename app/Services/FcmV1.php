@@ -153,7 +153,10 @@ class FcmV1
                 'token'        => $deviceToken,
                 'notification' => ['title' => (string) $title, 'body' => (string) $body],
                 'data'         => $stringData,
-                'android'      => ['priority' => 'high'],
+                'android'      => [
+                    'priority'     => 'high',
+                    'notification' => ['channel_id' => 'default'],
+                ],
             ],
         ];
 

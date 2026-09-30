@@ -6,10 +6,10 @@
     <title>404 page</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <!-- global level js-->
-    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- end of globallevel js-->
     <!-- page level styles-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/pages/404.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/admin/css/pages/404.css') }}"/>
     <!-- end of page level styles-->
 </head>
 

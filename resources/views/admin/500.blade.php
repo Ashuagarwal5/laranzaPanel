@@ -5,10 +5,10 @@
     <title>500 page</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <!-- global level js -->
-    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- end of global js-->
     <!-- page level styles-->
-    <link href="{{ asset('assets/css/pages/500.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('assets/admin/css/pages/500.css') }}" rel="stylesheet" type="text/css"/>
     <!-- end of page level styles-->
 </head>
 <body>

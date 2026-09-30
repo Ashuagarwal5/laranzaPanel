@@ -394,7 +394,7 @@ class RewardClaim extends Eloquent
         $msg    = '';
 
         try {
-            $imagePath = URL::to(Thumbnail::image('reward-products', '500', '500', 'f'));
+            $imagePath = URL::to('uploads/reward-products');
 
             $data = self::leftjoin('reward_products', 'reward_products.id', 'reward_claims.reward_product_id')
                 ->select(

@@ -86,6 +86,15 @@
                                                     value="{{ $data->waba_number }}" />
                                             </div>
                                         </div>
+                                        <div class="form-group">
+                                            <label for="admin_mobile_no" class="col-sm-2 control-label">Admin Mobile Number</label>
+                                            <div class="col-sm-10">
+                                                <input id="admin_mobile_no" name="admin_mobile_no" type="text"
+                                                    placeholder="e.g. 9876543210" class="form-control"
+                                                    value="{{ $data->admin_mobile_no ?? '' }}" />
+                                                <span class="help-block">Messages set to go to the Admin (WhatsApp / SMS) are sent to this number. Use the 10-digit number or include the country code.</span>
+                                            </div>
+                                        </div>
                                         <br>
                                         <h3>SMS Settings</h3>
                                         <br>

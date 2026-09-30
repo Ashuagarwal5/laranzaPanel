@@ -20,10 +20,10 @@ RewriteEngine On
   #RewriteRule (.*) https://www.%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 
-
-	RewriteRule ^uploads/([0-9]+)/([0-9]+)/([A-Za-z0-9_=]+)/(.*)$   /img/webroot/img.php?w=$1&h=$2&va&src=$4&$3 [QSA,NC,L]
-	RewriteRule ^uploads/(.*)$   /img/webroot/img.php?src=$1 [QSA,NC,L]
-	RewriteRule ^uploads/([0-9]+)/([0-9]+)/(.*)$  /img/webroot/imgp.php?w=$1&h=$2&src=$3 [QSA,NC,L]
+  # Let Laravel handle /uploads/*
+	# RewriteRule ^uploads/([0-9]+)/([0-9]+)/([A-Za-z0-9_=]+)/(.*)$   /img/webroot/img.php?w=$1&h=$2&va&src=$4&$3 [QSA,NC,L]
+	# RewriteRule ^uploads/(.*)$   /img/webroot/img.php?src=$1 [QSA,NC,L]
+	# RewriteRule ^uploads/([0-9]+)/([0-9]+)/(.*)$  /img/webroot/imgp.php?w=$1&h=$2&src=$3 [QSA,NC,L]
 
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
